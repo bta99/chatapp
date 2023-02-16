@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chatapp/firebase_service.dart';
 import 'package:chatapp/helper/localStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,11 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    init();
+  }
+
+  void init() async {
+    await MyFirebaseService().initialize();
   }
 
   @override
@@ -28,10 +34,10 @@ class LoginController extends GetxController {
     LocalStorage.instance.getString('userInfo') != null ? Get.offAllNamed(Routes.HOME) : null;
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
 
   Future<void> register() async {
     Helper.showLoading();
@@ -42,7 +48,9 @@ class LoginController extends GetxController {
       Helper.hideLoading();
       if (user != null) {
         user.updateDisplayName(nameController.value.text);
-        String? notificationToken = await FirebaseMessaging.instance.getToken();
+        String? notificationToken = await FirebaseMessaging.instance.getToken(
+            vapidKey:
+                'AAAAUJP2IA4:APA91bFND4paBK1ZbKes998gSOm2xpeLDClQuvsq9ag9ko0Dy4ZQcOCXfYtS7VG3pPCxFXDxU_fm7qsJE7J3XyIhsG1gGadashUETu2s5RVj-qCHo65FoankU0d3KmWWivTQh7S98rAv');
         await firestore.collection('users').doc(auth.currentUser!.uid).set({
           'name': nameController.value.text,
           'email': emailController.value.text,

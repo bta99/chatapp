@@ -71,7 +71,7 @@ class ChatRoomController extends GetxController {
   }
 
   void sendNotifi(String roomId, Map<String, dynamic> user, String sendTo, String message) async {
-    print(user);
+    print(user['name']);
     try {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -88,14 +88,15 @@ class ChatRoomController extends GetxController {
               "title": "Tin nhắn mới",
               "roomId": roomId,
               "content": message,
-              "user": user,
+              "user": user['name'],
             },
             // "to": sendTo,
             "registration_ids": [sendTo],
-            "notification": {
-              "image":
-                  "https://images.unsplash.com/photo-1664574653790-cee0e10a4242?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60"
-            }
+            "priority": "high",
+            // "notification": {
+            //   "image":
+            //       "https://images.unsplash.com/photo-1664574653790-cee0e10a4242?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60"
+            // }
           },
         ),
       );

@@ -30,14 +30,16 @@ class NotificationService {
   static notificationDetails() async {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
-        'high_importance_channel',
-        'High Importance Notifications',
+        'default_notification_channel_id', 'High Importance Notifications',
         enableLights: true,
         importance: Importance.max,
         priority: Priority.max,
         enableVibration: true,
         icon: '@mipmap/ic_launcher',
         largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+        ticker: 'ticker',
+        playSound: true,
+        // sound: RawResourceAndroidNotificationSound("notification")
         // channelDescription: 'description',
         // maxProgress: 1,
       ),
