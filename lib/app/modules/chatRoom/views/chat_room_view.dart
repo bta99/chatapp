@@ -304,12 +304,14 @@ class MessageImage extends StatelessWidget {
     this.isCurrentUserLogin,
     this.url,
     this.userSend,
+    // this.onTap,
   }) : super(key: key);
 
   final bool? isCurrentUserLogin;
   final String? url;
   final String? userSend;
 
+  // final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -328,27 +330,71 @@ class MessageImage extends StatelessWidget {
                 ),
               )
             : const SizedBox(),
-        Container(
-          margin:
-              EdgeInsets.only(left: isCurrentUserLogin! ? Get.width / 1.85 : 5, right: isCurrentUserLogin! ? 5 : Get.width / 1.85, top: 5, bottom: 5),
-          height: Get.width / 1.85,
-          width: Get.width / 2.5,
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: !isCurrentUserLogin! ? Colors.grey[300]!.withOpacity(0.5) : Constans.buttonColor.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(5).copyWith(
-              bottomRight: isCurrentUserLogin! ? const Radius.circular(0) : null,
-              bottomLeft: !isCurrentUserLogin! ? const Radius.circular(0) : null,
+        InkWell(
+          onTap: () {
+            Get.dialog(
+                url == ''
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            width: Get.width - 100,
+                            height: Get.width * 1.2,
+                            child: Image.network(
+                              url ?? '',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          Positioned(
+                            top: 10,
+                            left: 10,
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.white, boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.white,
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                  ),
+                                ]),
+                                child: const Center(child: Icon(Icons.arrow_back_ios_new)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                barrierColor: Colors.black.withOpacity(0.7));
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                left: isCurrentUserLogin! ? Get.width / 1.85 : 5, right: isCurrentUserLogin! ? 5 : Get.width / 1.85, top: 5, bottom: 5),
+            height: Get.width / 1.85,
+            width: Get.width / 2.5,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: !isCurrentUserLogin! ? Colors.grey[300]!.withOpacity(0.5) : Constans.buttonColor.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(5).copyWith(
+                bottomRight: isCurrentUserLogin! ? const Radius.circular(0) : null,
+                bottomLeft: !isCurrentUserLogin! ? const Radius.circular(0) : null,
+              ),
             ),
+            child: url == ''
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Image.network(
+                    url ?? '',
+                    fit: BoxFit.cover,
+                  ),
           ),
-          child: url == ''
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Image.network(
-                  url ?? '',
-                  fit: BoxFit.cover,
-                ),
         ),
       ],
     );
