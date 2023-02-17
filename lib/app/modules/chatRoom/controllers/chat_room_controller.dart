@@ -71,7 +71,6 @@ class ChatRoomController extends GetxController {
   }
 
   void sendNotifi(String roomId, Map<String, dynamic> user, String sendTo, String message) async {
-    print(user['name']);
     try {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -88,7 +87,7 @@ class ChatRoomController extends GetxController {
               "title": "Tin nhắn mới",
               "roomId": roomId,
               "content": message,
-              "user": user['name'],
+              "user": userInfo.value.name,
             },
             // "to": sendTo,
             "registration_ids": [sendTo],

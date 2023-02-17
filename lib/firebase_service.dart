@@ -19,8 +19,8 @@ class MyFirebaseService {
     );
     // getDeviceFirebaseToken();
     FirebaseMessaging.onMessage.listen((message) {
-      print('sadasd00');
       Map<String, dynamic>? notification = message.data;
+      print(notification['user']);
 
       if (message.data.isNotEmpty) {
         NotificationService.showNotification(
